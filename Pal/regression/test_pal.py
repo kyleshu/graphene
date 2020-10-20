@@ -20,8 +20,8 @@ from regression import (
 )
 
 if HAS_SGX:
-    sys.path.insert(0, os.path.dirname(__file__) + '/../src/host/Linux-SGX/signer')
-    from pal_sgx_sign import read_manifest
+    sys.path.insert(0, os.path.dirname(__file__) + '/../../python')
+    from graphenelibos.sgx_sign import read_manifest
 
 CPUINFO_FLAGS_WHITELIST = [
     'fpu', 'vme', 'de', 'pse', 'tsc', 'msr', 'pae', 'mce', 'cx8', 'apic', 'sep',
