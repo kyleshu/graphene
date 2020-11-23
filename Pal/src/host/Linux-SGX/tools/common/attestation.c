@@ -214,7 +214,7 @@ int verify_ias_report_extract_quote(const uint8_t* ias_report, size_t ias_report
         goto out;
     }
 
-    if (strcmp("OK", node->valuestring) == 0) {
+    if ((strcmp("OK", node->valuestring) == 0) || (strcmp("CONFIGURATION_NEEDED", node->valuestring) == 0)) {
         ret = 0;
         INFO("IAS report: quote status OK\n");
     } else if (allow_outdated_tcb && strcmp("GROUP_OUT_OF_DATE", node->valuestring) == 0) {

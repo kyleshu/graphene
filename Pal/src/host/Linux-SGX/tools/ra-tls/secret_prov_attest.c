@@ -307,7 +307,6 @@ __attribute__((constructor)) static void secret_provision_constructor(void) {
         size_t secret_size = 0;
 
         unsetenv(SECRET_PROVISION_SECRET_STRING);
-
         int ret = secret_provision_start(/*in_servers=*/NULL, /*in_ca_chain_path=*/NULL,
                                          /*out_ctx=*/NULL);
         if (ret < 0)
@@ -350,5 +349,46 @@ __attribute__((constructor)) static void secret_provision_constructor(void) {
         setenv(SECRET_PROVISION_SECRET_STRING, (const char*)secret, /*overwrite=*/1);
 
         secret_provision_destroy();
+
+
+        /* retrieve list of parties that provides secrets */
+        e = getenv(SECRET_PROVISION_CC_SERVERS);
+
+        /* for each secret construct a ssl connection and retrieve it */
+        char* env_name = NULL;
+        char* connected_addr = NULL;
+        char* saveptr1;
+        char* saveptr2;
+        char* str1;
+        for (str1 = e; /*no condition*/; str1 = NULL) {
+            ret = -ECONNREFUSED;
+            char* token = strtok_r(str1, "; ", &saveptr1);
+            if (!token)
+                break;
+
+            env_name = strtok_r(token, "=", &saveptr2);
+            if (!env_name)
+                continue;
+
+            connected_addr = strtok_r(NULL, "=", &saveptr2);
+            if (!connected_addr)
+                continue;
+
+            ret = secret_provision_start(/*in_servers=*/(const char*)connected_addr, /*in_ca_chain_path=*/NULL,
+                                            /*out_ctx=*/NULL);
+            if (ret < 0)
+                continue;
+
+            ret = secret_provision_get(&secret, &secret_size);
+            if (ret < 0 || !secret || !secret_size || secret_size > PATH_MAX ||
+                    secret[secret_size - 1] != '\0') {
+                /* secret is not a null-terminated string, cannot do anything about such secret */
+                continue;
+            }
+
+            setenv(env_name, (const char*)secret, /*overwrite=*/1);
+
+            secret_provision_destroy();
+        } 
     }
 }

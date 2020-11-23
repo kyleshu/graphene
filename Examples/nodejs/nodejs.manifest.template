@@ -41,7 +41,7 @@ sgx.enclave_size = "2G"
 # Set maximum number of in-enclave threads (somewhat arbitrarily) to 8. Recall
 # that SGX v1 requires to specify the maximum number of simultaneous threads at
 # enclave creation time.
-sgx.thread_num = 8
+sgx.thread_num = 32
 
 # Specify all libraries used by Node.js and its dependencies (including all libs
 # which can be loaded at runtime via dlopen).
@@ -56,3 +56,7 @@ $(NODEJS_TRUSTED_LIBS)
 
 # JavaScript (trusted)
 sgx.trusted_files.javascript = "file:helloworld.js"
+
+sys.insecure__allow_eventfd = 1
+
+loader.env.SECRET_PROVISION_CC_SERVERS = "ANOTHER_SECRET=localhost:4433"
