@@ -19,7 +19,7 @@
 #define SECRET_STRING "42" /* answer to ultimate question of life, universe, and everything */
 
 #define WRAP_KEY_FILENAME "files/wrap-key"
-#define WRAP_KEY_SIZE     16
+#define WRAP_KEY_SIZE     32
 
 static pthread_mutex_t g_print_lock;
 char g_secret_pf_key_hex[WRAP_KEY_SIZE * 2 + 1];

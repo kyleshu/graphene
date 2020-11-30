@@ -1,10 +1,10 @@
 var crypto = require('crypto');
 
 var cipherText = {
-  iv: 'ee8dfb987d8799de134eafd790d30bf2',
-  encryptedData: '5a08b5d5d1050416e2775f5ddb4b5751'
+  iv: '6884d3e43df7f4eee7443502fa3c17cb',
+  encryptedData: '70aa53c2b8ca1e10c6022f434f9b8077'
 };
-var key = Buffer.from(process.env.ANOTHER_SECRET);
+var key = Buffer.from(process.env.ANOTHER_SECRET, 'hex');
 
 let iv = Buffer.from(cipherText.iv, 'hex');
 let encryptedData = Buffer.from(cipherText.encryptedData, 'hex');
