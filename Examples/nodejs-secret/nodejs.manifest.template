@@ -119,6 +119,8 @@ sgx.allowed_files.fstab = "file:/etc/fstab"
 $(NODEJS_TRUSTED_LIBS)
 
 # JavaScript (trusted)
+sgx.allowed_files.smlib = "file:node_modules"
+sgx.trusted_files.npminfo = "file:package.json"
 sgx.trusted_files.javascript = "file:readWrite.js"
 sgx.protected_files.readme = "file:README.md"
 

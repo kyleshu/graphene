@@ -1,4 +1,8 @@
 var crypto = require('crypto');
+var sm2 = require('sm-crypto').sm2;
+
+let keypair = sm2.generateKeyPairHex();
+console.log(keypair);
 
 var cipherText = {
   iv: '6884d3e43df7f4eee7443502fa3c17cb',
